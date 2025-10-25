@@ -18,6 +18,9 @@ public class JudgeService {
     private final SubmissionRepo submissionRepo;
     private final ProblemRepo problemRepo;
     private final TestCaseRepo testCaseRepo;
+    private final ContestRepo contestRepo; 
+    private final ContestParticipantRepo participantRepo; 
+    private final UserRepo userRepo;                 
 
     public void runJudge(Submission submission) {
         try {
@@ -159,4 +162,7 @@ public class JudgeService {
             });
         } catch (IOException ignored) {}
     }
+
+
 }
+

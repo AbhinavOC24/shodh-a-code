@@ -7,7 +7,7 @@ import ProblemPanel from "@/components/ProblemPanel";
 import EditorPanel from "@/components/EditorPanel";
 import OutputBar from "@/components/OutputBar";
 import LeaderboardTable from "@/components/LeaderboardTable";
-
+import axios from "axios";
 export default function ContestPage() {
   const { contestId } = useParams();
   const [contest, setContest] = useState<any>(null);
@@ -15,7 +15,6 @@ export default function ContestPage() {
   const [status, setStatus] = useState("");
   const [language, setLanguage] = useState("java");
 
-  // 🧠 Fetch contest + problems
   useEffect(() => {
     if (!contestId) return;
     (async () => {
@@ -25,13 +24,14 @@ export default function ContestPage() {
     })();
   }, [contestId]);
 
-  // 🧩 Handle submission
   const handleSubmit = async (code: string) => {
     if (!problem || !contestId) return;
-    setStatus("Submitting...");
+    setStatus("RUNNING");
+
+    const userId = localStorage.getItem("userId");
 
     const payload = {
-      user: { id: 1 }, // or localStorage user later
+      user: { id: Number(userId) },
       contest: { id: Number(contestId) },
       problem: { id: problem.id },
       language,
@@ -47,7 +47,6 @@ export default function ContestPage() {
     }
   };
 
-  // 🔁 Poll submission status
   const pollStatus = (id: string) => {
     const interval = setInterval(async () => {
       try {
@@ -55,17 +54,35 @@ export default function ContestPage() {
         setStatus(
           res.status + (res.verdictMessage ? ` - ${res.verdictMessage}` : "")
         );
+
         if (
           ["ACCEPTED", "WRONG_ANSWER", "RTE", "CE", "TLE"].includes(res.status)
         ) {
           clearInterval(interval);
+
+          if (res.status === "ACCEPTED") {
+            try {
+              const userId = localStorage.getItem("userId");
+              if (userId && problem?.id) {
+                await axios.post(
+                  `http://localhost:8080/api/contests/${contestId}/update-score`,
+                  {
+                    userId: Number(userId),
+                    problemId: problem.id,
+                  }
+                );
+              }
+            } catch (err) {
+              console.error("Failed to update score:", err);
+            }
+          }
         }
       } catch (e) {
         console.error(e);
         clearInterval(interval);
         setStatus("Error fetching submission status.");
       }
-    }, 3000);
+    }, 15000);
   };
 
   if (!contest || !problem)
@@ -80,7 +97,11 @@ export default function ContestPage() {
       {/* LEFT: Problem (top) + Leaderboard (bottom) */}
       <div className="w-1/2 border-r border-zinc-800 flex flex-col">
         <div className="flex-1 overflow-auto">
-          <ProblemPanel problem={problem} contest={contest} />
+          <ProblemPanel
+            problem={problem}
+            contest={contest}
+            onSelectProblem={(p) => setProblem(p)}
+          />
         </div>
         <div className="h-[35%] border-t border-zinc-800 overflow-auto">
           <LeaderboardTable contestId={contestId as string} />
@@ -93,7 +114,9 @@ export default function ContestPage() {
           onSubmit={handleSubmit}
           language={language}
           setLanguage={setLanguage}
+          problemId={problem?.id}
         />
+
         <OutputBar status={status} />
       </div>
     </main>

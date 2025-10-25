@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.*;
 public class RootController {
     @GetMapping("/")
     public String ping() {
-        return "✅ Shodh-a-Code backend running";
+        return "Shodh-a-Code backend running";
     }
 }

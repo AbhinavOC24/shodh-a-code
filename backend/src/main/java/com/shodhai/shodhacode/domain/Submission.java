@@ -44,6 +44,6 @@ public class Submission {
     private Instant updatedAt;
 
     public enum Status {
-        PENDING, RUNNING, ACCEPTED, WRONG_ANSWER, TLE, RTE, CE
+         RUNNING, ACCEPTED, WRONG_ANSWER, TLE, RTE, CE
     }
 }

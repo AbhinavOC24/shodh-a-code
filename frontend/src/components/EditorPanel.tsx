@@ -1,8 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AceEditor from "react-ace";
 
-// ACE modes
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-c_cpp";
@@ -18,12 +17,18 @@ export default function EditorPanel({
   onSubmit,
   language,
   setLanguage,
+  problemId,
 }: {
   onSubmit: (code: string) => void;
   language: string;
   setLanguage: (val: string) => void;
+  problemId: number | string;
 }) {
   const [code, setCode] = useState("// Write your code here");
+
+  useEffect(() => {
+    setCode("// Write your code here");
+  }, [problemId]);
 
   const mode = LANGUAGES.find((l) => l.value === language)?.aceMode || "java";
 
@@ -34,7 +39,6 @@ export default function EditorPanel({
         <div className="flex items-center gap-4">
           <span className="text-blue-400 font-medium">Code Editor</span>
 
-          {/* Language Selector */}
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value)}

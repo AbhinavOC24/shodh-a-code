@@ -28,7 +28,7 @@ public class SubmissionController {
                         .build()));
 
         submission.setUser(user);
-        submission.setStatus(Submission.Status.PENDING);
+        submission.setStatus(Submission.Status.RUNNING);
         submission.setCreatedAt(Instant.now());
         submission.setUpdatedAt(Instant.now());
         submissionRepo.save(submission);
