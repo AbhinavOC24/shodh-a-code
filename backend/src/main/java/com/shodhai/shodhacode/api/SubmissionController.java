@@ -22,7 +22,7 @@ public class SubmissionController {
     // POST /api/submissions
     @PostMapping
     public Submission submit(@RequestBody Submission submission) {
-        // find or create user
+
         UserAccount user = userRepo.findByUsername(submission.getUser().getUsername())
                 .orElseGet(() -> userRepo.save(UserAccount.builder()
                         .username(submission.getUser().getUsername())
@@ -34,7 +34,7 @@ public class SubmissionController {
         submission.setUpdatedAt(Instant.now());
         submissionRepo.save(submission);
 
-        // run judge asynchronously (non-blocking)
+
         CompletableFuture.runAsync(() -> judgeService.runJudge(submission));
 
         return submission;
