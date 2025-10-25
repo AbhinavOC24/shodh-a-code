@@ -5,6 +5,7 @@ import com.shodhai.shodhacode.repo.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
 import java.time.Instant;
 import java.util.List;
 
@@ -18,49 +19,67 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (contestRepo.findByCode("DEMO2025").isPresent()) return; // skip if already seeded
+        if (contestRepo.count() > 0) return;
 
-        // 1️⃣ Create contest
-        var contest = contestRepo.save(
-            Contest.builder()
-                   .code("DEMO2025")
-                   .title("Shodh-a-Code Demo Contest")
-                   .startsAt(Instant.now().minusSeconds(3600))
-                   .endsAt(Instant.now().plusSeconds(86400))
-                   .build()
-        );
+        // ✅ 1. Create contest
+        Contest contest = Contest.builder()
+                .title("Shodh-a-Code Demo Contest")
+                .code("DEMO2025")
+                .build();
+        contestRepo.save(contest);
 
-        // 2️⃣ Problem 1 — Sum of Two
-        var p1 = problemRepo.save(
-            Problem.builder()
-                   .contest(contest)
-                   .code("SUM2")
-                   .title("Sum of Two Numbers")
-                   .statement("Read two integers and print their sum.")
-                   .language("java")
-                   .score(100)
-                   .build()
-        );
-        testCaseRepo.saveAll(List.of(
-            TestCase.builder().problem(p1).inputData("2 3\n").expectedOutput("5\n").build(),
-            TestCase.builder().problem(p1).inputData("10 -10\n").expectedOutput("0\n").build(),
-            TestCase.builder().problem(p1).inputData("100 250\n").expectedOutput("350\n").build()
-        ));
+        // ✅ 2. Problem 1 — simple addition
+        Problem p1 = Problem.builder()
+                .title("A + B Problem")
+                .code("ADD001")
+                .statement("Read two integers and output their sum.")
+                .language("java")
+                .score(100)
+                .contest(contest)
+                .build();
+        problemRepo.save(p1);
 
-        // 3️⃣ Problem 2 — Echo
-        var p2 = problemRepo.save(
-            Problem.builder()
-                   .contest(contest)
-                   .code("ECHO")
-                   .title("Echo Line")
-                   .statement("Read a line and print it back.")
-                   .language("java")
-                   .score(50)
-                   .build()
-        );
-        testCaseRepo.saveAll(List.of(
-            TestCase.builder().problem(p2).inputData("hello\n").expectedOutput("hello\n").build(),
-            TestCase.builder().problem(p2).inputData("world\n").expectedOutput("world\n").build()
-        ));
+        // ✅ testcases for p1
+        TestCase t1 = TestCase.builder()
+                .inputData("2 3")
+                .expectedOutput("5")
+                .problem(p1)
+                .build();
+
+        TestCase t2 = TestCase.builder()
+                .inputData("10 5")
+                .expectedOutput("15")
+                .problem(p1)
+                .build();
+
+        testCaseRepo.saveAll(List.of(t1, t2));
+
+        // ✅ another sample problem
+        Problem p2 = Problem.builder()
+                .title("Multiply Numbers")
+                .code("MUL002")
+                .statement("Read two integers and output their product.")
+                .language("java")
+                .score(100)
+                .contest(contest)
+                .build();
+
+        problemRepo.save(p2);
+
+        TestCase t3 = TestCase.builder()
+                .inputData("2 4")
+                .expectedOutput("8")
+                .problem(p2)
+                .build();
+
+        TestCase t4 = TestCase.builder()
+                .inputData("3 5")
+                .expectedOutput("15")
+                .problem(p2)
+                .build();
+
+        testCaseRepo.saveAll(List.of(t3, t4));
+
+        System.out.println("✅ Seeded contest + problems + testcases successfully!");
     }
 }

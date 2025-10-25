@@ -1,24 +1,22 @@
 package com.shodhai.shodhacode.domain;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter @Setter @Builder @NoArgsConstructor @AllArgsConstructor
 public class TestCase {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Problem problem;
-
-    @Column(length = 4000)
     private String inputData;
-
-    @Column(length = 4000)
     private String expectedOutput;
 
-    private boolean sample; // whether this is a sample testcase
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "problem_id")
+    @JsonBackReference
+    private Problem problem;
 }

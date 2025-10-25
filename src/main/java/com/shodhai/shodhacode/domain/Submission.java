@@ -1,42 +1,37 @@
 package com.shodhai.shodhacode.domain;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.Instant;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter @Setter @Builder @NoArgsConstructor @AllArgsConstructor
 public class Submission {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private UserAccount user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contest_id")
     private Contest contest;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "problem_id")
     private Problem problem;
 
-    @Column(length = 10000)
     private String sourceCode;
-
-    private String language; // e.g. "java"
-
-    public enum Status {
-        PENDING, RUNNING, ACCEPTED, WRONG_ANSWER, TLE, RTE, CE
-    }
-
-    @Enumerated(EnumType.STRING)
+    private String language;
     private Status status;
-
-    @Column(length = 4000)
     private String verdictMessage;
-
     private Long timeMs;
     private Instant createdAt;
     private Instant updatedAt;
+
+    public enum Status { PENDING, RUNNING, ACCEPTED, WRONG_ANSWER, RTE }
 }
