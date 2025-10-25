@@ -15,8 +15,6 @@ public class SubmissionController {
 
     private final SubmissionRepo submissionRepo;
     private final UserRepo userRepo;
-    private final ContestRepo contestRepo;
-    private final ProblemRepo problemRepo;
     private final JudgeService judgeService;
 
     // POST /api/submissions
