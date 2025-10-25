@@ -99,7 +99,7 @@ public class JudgeService {
 
                 if (rCode == 124) {
                     submission.setStatus(Submission.Status.TLE);
-                    submission.setVerdictMessage("Time Limit Exceeded on test " + tc.getId());
+                    submission.setVerdictMessage("Time Limit Exceeded on test case" + tc.getId());
                     submission.setUpdatedAt(Instant.now());
                     submissionRepo.save(submission);
                     cleanup(tempDir);
@@ -107,7 +107,7 @@ public class JudgeService {
                 }
                 if (rCode != 0) {
                     submission.setStatus(Submission.Status.RTE);
-                    submission.setVerdictMessage(truncate("Runtime Error on test " + tc.getId() + ":\n" + (err.isBlank()? out : err), 3800));
+                    submission.setVerdictMessage(truncate("Runtime Error on test case" + tc.getId() + ":\n" + (err.isBlank()? out : err), 3800));
                     submission.setUpdatedAt(Instant.now());
                     submissionRepo.save(submission);
                     cleanup(tempDir);

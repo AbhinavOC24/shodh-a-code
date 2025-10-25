@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/contests")
 @RequiredArgsConstructor
@@ -14,7 +15,7 @@ public class ContestController {
 
     private final ContestRepo contestRepo;
     private final SubmissionRepo submissionRepo;
-    private final ProblemRepo problemRepo;
+
 
     // GET /api/contests/{contestId}
     @GetMapping("/{contestId}")
