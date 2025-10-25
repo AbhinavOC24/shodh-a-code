@@ -21,14 +21,14 @@ public class DataSeeder implements CommandLineRunner {
     public void run(String... args) {
         if (contestRepo.count() > 0) return;
 
-        // ✅ 1. Create contest
+
         Contest contest = Contest.builder()
                 .title("Shodh-a-Code Demo Contest")
                 .code("DEMO2025")
                 .build();
         contestRepo.save(contest);
 
-        // ✅ 2. Problem 1 — simple addition
+
         Problem p1 = Problem.builder()
                 .title("A + B Problem")
                 .code("ADD001")
@@ -39,7 +39,7 @@ public class DataSeeder implements CommandLineRunner {
                 .build();
         problemRepo.save(p1);
 
-        // ✅ testcases for p1
+
         TestCase t1 = TestCase.builder()
                 .inputData("2 3")
                 .expectedOutput("5")
@@ -54,7 +54,7 @@ public class DataSeeder implements CommandLineRunner {
 
         testCaseRepo.saveAll(List.of(t1, t2));
 
-        // ✅ another sample problem
+
         Problem p2 = Problem.builder()
                 .title("Multiply Numbers")
                 .code("MUL002")
