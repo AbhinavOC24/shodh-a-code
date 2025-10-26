@@ -24,11 +24,34 @@ export default function EditorPanel({
   setLanguage: (val: string) => void;
   problemId: number | string;
 }) {
+  const userId = localStorage.getItem("userId");
+  const codeKey = `code_${userId}_${problemId}`;
+  const langKey = `lang_${userId}_${problemId}`;
+
   const [code, setCode] = useState("// Write your code here");
 
+  // 🔹 Load saved data for this problem
   useEffect(() => {
-    setCode("// Write your code here");
+    const savedCode = localStorage.getItem(codeKey);
+    const savedLang = localStorage.getItem(langKey);
+
+    if (savedCode) setCode(savedCode);
+    else setCode("// Write your code here");
+
+    if (savedLang) setLanguage(savedLang);
   }, [problemId]);
+
+  // 🔹 Save code whenever user types
+  const handleCodeChange = (newCode: string) => {
+    setCode(newCode);
+    localStorage.setItem(codeKey, newCode);
+  };
+
+  // 🔹 Save language selection
+  const handleLanguageChange = (newLang: string) => {
+    setLanguage(newLang);
+    localStorage.setItem(langKey, newLang);
+  };
 
   const mode = LANGUAGES.find((l) => l.value === language)?.aceMode || "java";
 
@@ -41,7 +64,7 @@ export default function EditorPanel({
 
           <select
             value={language}
-            onChange={(e) => setLanguage(e.target.value)}
+            onChange={(e) => handleLanguageChange(e.target.value)}
             className="ml-4 bg-transparent text-gray-300 border border-gray-600 rounded px-2 py-0.5 text-xs focus:outline-none"
           >
             {LANGUAGES.map((lang) => (
@@ -63,7 +86,7 @@ export default function EditorPanel({
           mode={mode}
           theme="dracula"
           value={code}
-          onChange={setCode}
+          onChange={handleCodeChange}
           width="100%"
           height="100%"
           fontSize={14}

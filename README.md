@@ -100,6 +100,7 @@ Provides an interactive contest dashboard with problem navigation, live verdict 
 - **Lightweight database** (H2 or SQL)
 - **Live leaderboard** for each contest
 - **Responsive React frontend** with syntax-highlighted editor
+- **Persistent Code Editor** Preserved code across sessions and page reloads.
 
 ---
 
