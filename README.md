@@ -33,7 +33,7 @@ A full-stack online coding contest platform that enables participants to join li
 
 ## Overview
 
-Shodh-a-Code replicates the experience of competitive coding platforms like **Codeforces** or **LeetCode** in a self-contained system. It consists of a **Spring Boot backend** for problem management, code evaluation, and scoring, and a **React frontend (NextJS) ** for the contest UI, editor, and leaderboard.
+Shodh-a-Code replicates the experience of competitive coding platforms like **Codeforces** or **LeetCode** in a self-contained system. It consists of a **Spring Boot backend** for problem management, code evaluation, and scoring, and a **React frontend (NextJS)** for the contest UI, editor, and leaderboard.
 
 ---
 
