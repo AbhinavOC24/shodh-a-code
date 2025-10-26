@@ -113,7 +113,7 @@ Provides an interactive contest dashboard with problem navigation, live verdict 
 For a streamlined setup using Docker Compose:
 
 ```bash
-git clone https://github.com/<your-username>/shodh-a-code.git
+git clone https://github.com/AbhinavOC24/shodh-a-code.git
 cd shodh-a-code
 docker-compose up --build
 ```
