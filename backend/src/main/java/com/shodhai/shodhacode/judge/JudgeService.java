@@ -59,9 +59,11 @@ public class JudgeService {
             }
 
 
-            Path tempDir = Files.createTempDirectory("judge_");
+            // Path tempDir = Files.createTempDirectory("judge_");
+            Path tempDir = Paths.get("/tmp/judge_tmp", UUID.randomUUID().toString());
+            Files.createDirectories(tempDir);
             Files.writeString(tempDir.resolve(srcFile), submission.getSourceCode(), StandardCharsets.UTF_8);
-
+            
 
             if (buildCmd != null) {
                 ProcessBuilder compilePB = new ProcessBuilder(
