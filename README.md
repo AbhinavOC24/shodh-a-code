@@ -40,12 +40,14 @@ Shodh-a-Code replicates the experience of competitive coding platforms like **Co
 ## Usage
 
 1. Start backend and frontend
-2. Join contest with a username (creates a participant)
+2. Join contest by entering the contestId and a username (creates a participant)
 3. Select a problem and write code in the editor
 4. Submit - backend compiles/runs inside Docker
 5. Verdict appears in output panel
 6. On `ACCEPTED`, `/update-score` updates points
 7. Leaderboard updates automatically
+
+**Note**: Contest ID is hardcoded as 1 for this assignment
 
 ---
 

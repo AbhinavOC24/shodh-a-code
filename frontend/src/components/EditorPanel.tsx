@@ -30,7 +30,6 @@ export default function EditorPanel({
 
   const [code, setCode] = useState("// Write your code here");
 
-  // 🔹 Load saved data for this problem
   useEffect(() => {
     const savedCode = localStorage.getItem(codeKey);
     const savedLang = localStorage.getItem(langKey);
@@ -41,13 +40,11 @@ export default function EditorPanel({
     if (savedLang) setLanguage(savedLang);
   }, [problemId]);
 
-  // 🔹 Save code whenever user types
   const handleCodeChange = (newCode: string) => {
     setCode(newCode);
     localStorage.setItem(codeKey, newCode);
   };
 
-  // 🔹 Save language selection
   const handleLanguageChange = (newLang: string) => {
     setLanguage(newLang);
     localStorage.setItem(langKey, newLang);
