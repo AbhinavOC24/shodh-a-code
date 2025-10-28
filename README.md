@@ -7,6 +7,7 @@ A full-stack online coding contest platform that enables participants to join li
 ## Table of Contents
 
 - [Overview](#overview)
+- [Demo](#demo)
 - [Usage](#usage)
 - [How It Works](#how-it-works)
   - [Architecture](#architecture)
@@ -34,6 +35,13 @@ A full-stack online coding contest platform that enables participants to join li
 ## Overview
 
 Shodh-a-Code replicates the experience of competitive coding platforms like **Codeforces** or **LeetCode** in a self-contained system. It consists of a **Spring Boot backend** for problem management, code evaluation, and scoring, and a **React frontend (NextJS)** for the contest UI, editor, and leaderboard.
+
+---
+
+## Demo
+
+[Youtube Video Link](https://www.youtube.com/watch?v=2Nu6t862cdA)
+
 
 ---
 
@@ -138,7 +146,7 @@ This launches both backend and frontend together.
 **1. Clone the Repository**
 
 ```bash
-git clone https://github.com/<your-username>/shodh-a-code.git
+git clone https://github.com/AbhinavOC24/shodh-a-code.git
 cd shodh-a-code
 ```
 
